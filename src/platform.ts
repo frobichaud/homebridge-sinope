@@ -79,7 +79,10 @@ export class SinopePlatform implements DynamicPlatformPlugin {
     // filter these out.
     // TODO(palourde): There must be a more reliable way of doing this than
     // looking at the parentDevice$id field
-    const thermostats = devices.filter(device => device.sku.substring(0, 2) === 'TH');
+    const thermostats = devices.filter(device => {
+      // FLP55 are Flextherm thermostats, which are rebranded TH1300WF
+      return device.sku.substring(0, 2) === 'TH' || device.sku === 'FLP55';
+    });
     const dimmers = devices.filter(device => device.sku.substring(0, 2) === 'DM');
     const outlets = devices.filter(device => device.sku.substring(0, 2) === 'SP');
     const switchesregex = new RegExp('^SW|^RM', 'g');
